@@ -6,7 +6,7 @@ unzip(zipfile="./data/Dataset.zip",exdir="./data")
 
 datapath <- file.path("./data" , "UCI HAR Dataset")
 
-Feature_name <- read.table(file.path(datapath, "features.txt"),head=FALSE)
+Feature_name <- read.table(file.path(datapath, "features.txt"),header=FALSE)
 Activity_Labels <- read.table(file.path(datapath, "activity_labels.txt"),header = FALSE)
 
 ActivityTest  <- read.table(file.path(datapath, "test" , "Y_test.txt" ),header = FALSE)
@@ -28,7 +28,6 @@ names(Features)<- Feature_name$V2
 Subj_Act_Combine <- cbind(Subject, Activity)
 Combined_Data <- cbind(Features, Subj_Act_Combine)
 
-
 mean_std_Features<-Feature_name$V2[grep("mean\\(\\)|std\\(\\)", Feature_name$V2)]
 mean_std_Features<-as.character(mean_std_Features)
 a<-c(mean_std_Features, "subject", "activity" )
@@ -45,5 +44,3 @@ library(plyr);
 clean_Data<-aggregate(. ~subject + activity, Selected_Data, mean)
 clean_Data<-clean_Data[order(clean_Data$subject,clean_Data$activity),]
 write.table(clean_Data, file = "tidydata.txt",row.name=FALSE)
-
-
